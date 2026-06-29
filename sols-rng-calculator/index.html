@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Sol's RNG Aura Calculator</title>
+<link rel="stylesheet" href="src/styles.css">
+</head>
+<body>
+<header>
+<h1>Sol's RNG Aura Calculator</h1>
+<div class="sub">Estimate aura drop chance, expected time, drops per hour, and the best luck range for a target aura.</div>
+</header>
+<main>
+<section>
+<div class="card"><h3>🍀 Luck</h3><small>Enter the luck shown in-game. If in-game luck already includes VIP or Dorcelessness, leave those modifiers disabled below.</small><div class="sliderLine"><b>L</b><input id="luckRange" type="range" min="1" max="5000" value="30" step="0.1"><input id="luck" type="number" value="30" step="0.1"></div></div>
+<div class="card"><h3>🪽 Rollspeed</h3><small>100 = base speed, 157 = 157%, 290 = 290%.</small><div class="sliderLine"><b>S</b><input id="speedRange" type="range" min="100" max="1000" value="290" step="1"><input id="speed" type="number" value="290" step="1"></div></div>
+
+<div class="card"><h3>📊 Display</h3><select id="display"><option value="seconds">1 - Seconds</option><option value="minutes">2 - Minutes</option><option value="hours">3 - Hours</option><option value="days" selected>4 - Days</option><option value="weeks">5 - Weeks</option><option value="months">6 - Months</option><option value="years">7 - Years</option></select></div>
+
+<div class="card">
+<h3>⚙️ Left-handed device</h3>
+<label>Preset</label><select id="device"></select><small id="deviceDesc"></small>
+<label><input id="manualDevice" type="checkbox"> Use custom device settings</label>
+<div id="manualBox" class="hidden">
+<div class="row"><div><label>Bonus roll every</label><input id="bonusEvery" type="number" value="10" step="1"></div><div><label>Bonus roll multiplier</label><input id="bonusMult" type="number" value="2" step="0.01"></div></div>
+<div class="row"><div><label>Flat luck add</label><input id="flatLuck" type="number" value="0" step="0.01"></div><div><label>Luck multiplier</label><input id="luckMult" type="number" value="1" step="0.01"></div></div>
+<div class="row"><div><label>Timed buff multiplier</label><input id="timedMult" type="number" value="1" step="0.01"></div><div><label>Timed buff uptime %</label><input id="timedUptime" type="number" value="0" step="0.1"></div></div>
+<label><input id="removeBonus" type="checkbox"> Remove bonus roll feature</label>
+</div>
+</div>
+
+<div class="card">
+<h3>💎 Desired aura</h3>
+<label>Target mode</label><select id="targetMode"><option value="aura">Choose an aura</option><option value="rarity">Enter custom rarity</option></select>
+<label>Aura search</label><input id="auraSearch" type="text" placeholder="Type aura name, e.g. Solar, Oppression, Star...">
+<label>Biome filter</label><select id="auraBiomeFilter"></select>
+<label>Aura</label><select id="target"></select>
+<div class="sliderLine"><b>R</b><input id="rarityRange" type="range" min="1" max="10000000000" value="5000" step="1"><input id="rarity" type="number" value="5000" step="1"></div>
+</div>
+
+<div class="card">
+<h3>🌍 Environment</h3>
+<select id="biome"></select>
+<small>Daytime and Nighttime are fixed at 50/50. Use a specific biome to calculate native rarity inside that biome. Use Average natural biomes for long AFK estimates.</small>
+</div>
+
+
+<div class="card">
+<h3>Calculation model</h3>
+<label><input id="blocking" type="checkbox" checked> Rarer-aura blocking</label>
+<small>Simulates the game's priority system: rarer auras are checked first and can take the roll before a lower-rarity target is awarded.</small>
+<br><br>
+<small>
+The Environment setting automatically handles native biome rarity, biome availability, and exclusive-biome requirements.
+</small>
+</div>
+</section>
+
+<section>
+<div class="grid4"><div class="metric">Chance per roll<b id="mOneIn">—</b><small id="mChance">—</small></div><div class="metric">Average rolls<b id="mRolls">—</b></div><div class="metric">Average time<b id="mTime">—</b></div><div class="metric">Drops per hour<b id="mHour">—</b></div></div>
+<div class="card"><h3>Raw AFK chance</h3><div id="rawInfo" class="sub">—</div></div>
+<div class="card"><h3>Selected display unit</h3><div class="metric">T = <b id="mDisplay">—</b></div></div>
+<div class="card">
+<h3>Probability milestones</h3>
+<small>Shows how long it takes to reach a given probability of getting at least one copy of the target aura.</small>
+<table>
+<thead><tr><th>Chance to get at least one</th><th>Expected time</th><th>Rolls</th></tr></thead>
+<tbody id="milestones"></tbody>
+</table>
+</div>
+
+<div class="card"><h3>🌍 Environment information</h3><div id="biomeContext">—</div></div>
+</div>
+<div class="card"><h3>Calculation details</h3><div id="details"></div><div class="note">This calculator is an estimate. Some devices have special timing mechanics, so presets model their average behavior over a full cycle. Use Custom device settings for testing custom setups.</div></div>
+
+</section>
+
+
+<input id="standardOnly" type="checkbox" checked class="hidden">
+<input id="includeUnobtainable" type="checkbox" class="hidden">
+
+<input id="useNativeOdds" type="checkbox" checked class="hidden">
+<input id="useDesmosBiomeFactor" type="checkbox" checked class="hidden">
+<input id="rawExclusiveBiome" type="checkbox" checked class="hidden">
+<input id="capProb" type="checkbox" checked class="hidden">
+
+
+<input id="vip" type="hidden" value="1">
+<input id="dorce" type="hidden" value="1">
+
+
+<footer class="site-footer">
+  <small>Created by WhiteYN. This is a community calculator and may need updates after game patches.</small>
+</footer>
+</main>
+
+<script src="src/app.js"></script>
+</body>
+</html>
