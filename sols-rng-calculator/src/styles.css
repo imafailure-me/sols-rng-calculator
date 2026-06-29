@@ -1,3 +1,4 @@
+
 :root{--bg:#0f1117;--card:#171a23;--muted:#9aa3b2;--text:#e8edf5;--accent:#7ee787;--line:#2a2f3a;--warn:#facc15}
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--text);font:14px/1.45 system-ui,Segoe UI,Arial,sans-serif}
@@ -15,5 +16,3 @@ canvas{width:100%;height:310px;background:#0b0e14;border-radius:12px;border:1px 
 .pill{display:inline-block;border:1px solid var(--line);border-radius:999px;padding:2px 8px;color:#cbd5e1;margin:2px}
 .sliderLine{display:grid;grid-template-columns:58px 1fr 78px;gap:8px;align-items:center;margin:4px 0}
 .note{background:#0d1320;border:1px dashed #334155;border-radius:12px;padding:10px;color:#cbd5e1}.hidden{display:none}
-
-.site-footer{padding:16px 28px;color:var(--muted);text-align:center}

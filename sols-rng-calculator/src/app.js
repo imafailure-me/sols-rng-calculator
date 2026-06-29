@@ -1,7 +1,5 @@
-// Sol's RNG Aura Calculator
-// Created by WhiteYN.
-// This file contains the calculator data and logic.
-// It is intentionally dependency-free so the site works on GitHub Pages without a build step.
+// Sol's RNG Calculator - WhiteYN
+
 
 const raw = `
 Nothing|Basic|1||The Limbo|standard
@@ -471,7 +469,15 @@ function pCycle(target,L){const b=document.getElementById('biome').value; if(b==
    return pDeviceWeighted(target,L,'None');
  }
 
- // Native-biome auras in Normal gameplay use the long-term biome-time factor.
+ // Daytime/Nighttime native auras are active for 50% of the normal cycle.
+ if(target.biome && target.biome.includes('Daytime')){
+   return 0.5 * pDeviceWeighted(target,L,'Daytime') + 0.5 * pDeviceWeighted(target,L,'None');
+ }
+ if(target.biome && target.biome.includes('Nighttime')){
+   return 0.5 * pDeviceWeighted(target,L,'Nighttime') + 0.5 * pDeviceWeighted(target,L,'None');
+ }
+
+ // Other native-biome auras in Normal gameplay use the long-term biome-time factor.
  // Example: Chillsear base rarity is used, then improved by Snowy availability factor.
  return Math.min(1, pDeviceWeighted(target,L,'None') / desmosBiomeFactorFor(target));
 } if(b==='Cycle Day/Night'){const day=0.5; const night=0.5; const rest=Math.max(0,1-day-night); const pc = day*pDeviceWeighted(target,L,'Daytime') + night*pDeviceWeighted(target,L,'Nighttime') + rest*pDeviceWeighted(target,L,'None'); return Math.min(1, pc * biomeSpawnFactorForTarget(target,b));} const p = pDeviceWeighted(target,L,b); if(b==='None') return p; return p;}
